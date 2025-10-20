@@ -19,7 +19,3 @@ fileReadStream.on("data", (data: string | Buffer<ArrayBufferLike>) => {
         console.log(data.toLocaleString("utf-8"))
     }
 })
-
-
-console.log("What else can be done ?") 
-console.log("I don't know")
