@@ -28,27 +28,29 @@ export class ArgumentParser {
             //         return acc
             //     }, ArgumentParser._instance!.flags!)
             // } 
-            // console.log(doesIncludesOnlyDashes)
+            // console.lo   g(doesIncludesOnlyDashes)
             // if (doesIncludesOnlyDashes) {
             //     const currentFlags =  element.split("--").filter(element => element)
             //     currentFlags.forEach(flag => ArgumentParser._instance.flags!.set(flag, true))
             // }
-            const doesIncludeOnlyHyphen = !element.includes("--") && element.includes("-")
-            const doesIncludeDashes = element.includes("--")
+            if (element.charAt(0) === '-') {
+                const doesIncludeOnlyHyphen = !element.includes("--") && element.includes("-")
+                const doesIncludeDashes = element.includes("--")
 
-            if (doesIncludeOnlyHyphen && !doesIncludeDashes) {
-                if (element.length === 2) {
-                    const flag = element.split("-").join("")
-                    this._instance!.flags!.set(flag, true)
-                } else if (element.length > 2) {
-                    element.split("-").join("").split("").forEach(flag => {
-                        this._instance.flags!.set(flag, true)
-                    })
+                if (doesIncludeOnlyHyphen && !doesIncludeDashes) {
+                    if (element.length === 2) {
+                        const flag = element.split("-").join("")
+                        this._instance!.flags!.set(flag, true)
+                    } else if (element.length > 2) {
+                        element.split("-").join("").split("").forEach(flag => {
+                            this._instance.flags!.set(flag, true)
+                        })
+                    }
+
+                } else if (doesIncludeDashes) {
+                    const flag = element.split("--").join("")
+                    this._instance!.flags?.set(flag, true)
                 }
-
-            } else if (doesIncludeDashes) {
-                const flag = element.split("--").join("")
-                this._instance!.flags?.set(flag, true)
             }
 
         });
