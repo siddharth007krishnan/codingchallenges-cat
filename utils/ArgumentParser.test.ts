@@ -1,5 +1,5 @@
 import { expect, describe, it, beforeAll, afterAll } from "@jest/globals"
-import { ArgumentParser } from "./ArgumentParser.ts"
+import { ArgumentParser } from "./ArgumentParser.js"
 
 describe("It should parse the command line arguments properly", () => {
     const OLD_PROCESS_ARGV = process.argv

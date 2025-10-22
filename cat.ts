@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { createReadStream, ReadStream } from "node:fs";
 
 
@@ -38,7 +40,7 @@ export function CatenateFiles(files: FileArray): Promise<void> {
 
 
 // async function main() {
-//     await CatenateFiles(["./sample.txt", "./sample.txt", "./sample.txt"])
+//     await CatenateFiles(["./sample.txt", "./cat.manual.txt", "./sample.txt"])
 // }
 
 // main().then(() => {

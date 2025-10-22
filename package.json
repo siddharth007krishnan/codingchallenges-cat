@@ -1,5 +1,7 @@
 {
   "type": "module",
+  "name": "cccat",
+  "displayName": "cccat",
   "devDependencies": {
     "@babel/preset-env": "^7.28.3",
     "@babel/preset-typescript": "^7.27.1",
@@ -8,10 +10,14 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
   },
+  "bin": {
+    "cccat": "./dist/cat.js"
+  },
   "scripts": {
-    "test": "jest",
+    "test": "jest dist/",
+    "test:build": "jest dist/",
     "compile": "tsc",
-    "compile:wath": "tsc --watch",
-    "dev": "node --watch dist/cat.js & tsc --watch"
+    "compile:watch": "tsc --watch",
+    "dev": "node --watch dist/cat.js & tsc -p tsconfig.dist.json --watch"
   }
 }

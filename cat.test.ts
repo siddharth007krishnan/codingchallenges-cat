@@ -1,6 +1,6 @@
 import { it, test, expect, beforeAll, describe, afterAll } from "@jest/globals"
 import { mkdtemp, readFile, writeFile, rm, rmdir } from "node:fs/promises"
-import { CatenateFiles } from "./cat.ts";
+import { CatenateFiles } from "./cat.js";
 
 test('adds 1 + 1 = 2', function () {
     const a = 1;
