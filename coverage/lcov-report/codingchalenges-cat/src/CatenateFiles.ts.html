@@ -3,15 +3,15 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for ArgumentParser.ts</title>
+    <title>Code coverage report for codingchalenges-cat/src/CatenateFiles.ts</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="prettify.css" />
-    <link rel="stylesheet" href="base.css" />
-    <link rel="shortcut icon" type="image/x-icon" href="favicon.png" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style type='text/css'>
         .coverage-summary .sorter {
-            background-image: url(sort-arrow-sprite.png);
+            background-image: url(../../sort-arrow-sprite.png);
         }
     </style>
 </head>
@@ -19,7 +19,7 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="index.html">All files</a> ArgumentParser.ts</h1>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">codingchalenges-cat/src</a> CatenateFiles.ts</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
@@ -129,25 +129,7 @@
 <a name='L64'></a><a href='#L64'>64</a>
 <a name='L65'></a><a href='#L65'>65</a>
 <a name='L66'></a><a href='#L66'>66</a>
-<a name='L67'></a><a href='#L67'>67</a>
-<a name='L68'></a><a href='#L68'>68</a>
-<a name='L69'></a><a href='#L69'>69</a>
-<a name='L70'></a><a href='#L70'>70</a>
-<a name='L71'></a><a href='#L71'>71</a>
-<a name='L72'></a><a href='#L72'>72</a>
-<a name='L73'></a><a href='#L73'>73</a>
-<a name='L74'></a><a href='#L74'>74</a>
-<a name='L75'></a><a href='#L75'>75</a>
-<a name='L76'></a><a href='#L76'>76</a>
-<a name='L77'></a><a href='#L77'>77</a>
-<a name='L78'></a><a href='#L78'>78</a>
-<a name='L79'></a><a href='#L79'>79</a>
-<a name='L80'></a><a href='#L80'>80</a>
-<a name='L81'></a><a href='#L81'>81</a>
-<a name='L82'></a><a href='#L82'>82</a>
-<a name='L83'></a><a href='#L83'>83</a>
-<a name='L84'></a><a href='#L84'>84</a>
-<a name='L85'></a><a href='#L85'>85</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L67'></a><a href='#L67'>67</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -213,108 +195,72 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">type CommandLineArgs = {
-	flags: any,
-	inputs: string[]
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">#!/usr/bin/env node
+&nbsp;
+import { createReadStream, ReadStream } from "node:fs";
+import { ArgumentParser } from "./ArgumentParser.js";
+&nbsp;
+&nbsp;
+type FileArray = Array&lt;string&gt;
+&nbsp;
+export function CatenateFiles(files: FileArray): Promise&lt;void&gt; {
+    return new Promise((resolve, reject) =&gt; {
+        files.forEach(file =&gt; {
+            if (file === "-") {
+                process.stdin.setDefaultEncoding("utf-8")
+                process.stdin.on("data", (data: Buffer) =&gt; {
+                    process.stdout.write(data.toString("utf-8"), err =&gt; {
+                        if (err) {
+                            reject(err)
+                        }
+                    })
+                })
+&nbsp;
+                process.stdin.on("error", err =&gt; {
+                    process.stdin.destroy(err)
+                    reject(err)
+                })
+&nbsp;
+                process.stdin.on("close", (hadError) =&gt; {
+                    if (hadError) {
+                        process.stdin.destroy()
+                        reject()
+                    }
+                    resolve()
+                })
+            }
+&nbsp;
+            const fileReadStream: ReadStream = createReadStream(file)
+            fileReadStream.on("data", (data: string | Buffer&lt;ArrayBufferLike&gt;) =&gt; {
+                if (typeof data === "string") {
+                    process.stdout.write(data, err =&gt; {
+                        reject(err)
+                    })
+                    // console.log(data) 
+                } else {
+                    process.stdout.write(data.toString("utf-8"), err =&gt; {
+                        if (err) {
+                            reject(err)
+                        }
+                    })
+                    // console.log(data.toString("utf-8"))
+                }
+            })
+&nbsp;
+            fileReadStream.on("error", err =&gt; {
+                fileReadStream.destroy(err)
+                reject(err)
+            })
+&nbsp;
+            fileReadStream.on("close", () =&gt; {
+                resolve()
+            })
+        })
+        resolve()
+    })
 }
 &nbsp;
-export class ArgumentParser {
-	private _flags: Map&lt;string, boolean&gt; | undefined
-	private _inputs = new Array&lt;string&gt;()
-	private static _instance: ArgumentParser
 &nbsp;
-	private constructor() {
-		if (!ArgumentParser._instance) {
-			this._flags = new Map&lt;string, boolean&gt;()
-		}
-	}
-&nbsp;
-	private static initializeArgumentParser() {
-		if (!ArgumentParser._instance) {
-			this._instance = new ArgumentParser()
-		}
-	}
-&nbsp;
-	public static parse() {
-		let firstInputEncountered = false
-		ArgumentParser.initializeArgumentParser()
-		process.argv.forEach((element: string, _: number) =&gt; {
-			if (element.charAt(0) === '-' &amp;&amp; element.length &gt; 1) {
-				const doesIncludeOnlyHyphen = !element.includes("--") &amp;&amp; element.includes("-")
-				const doesIncludeDashes = element.includes("--")
-&nbsp;
-				if (doesIncludeOnlyHyphen &amp;&amp; !doesIncludeDashes) {
-					if (element.length === 2) {
-						const flag = element.split("-").join("")
-						this._instance!._flags!.set(flag, true)
-					} else if (element.length &gt; 2) {
-						element.split("-").join("").split("").forEach(flag =&gt; {
-							this._instance._flags!.set(flag, true)
-						})
-					}
-&nbsp;
-				} else if (doesIncludeDashes) {
-					const flag = element.split("--").join("")
-					this._instance!._flags?.set(flag, true)
-				}
-			} else {
-				if (process.argv[0] === "node") {
-					if (element !== "node" &amp;&amp; !firstInputEncountered) {
-						firstInputEncountered = true
-					}
-				} else {
-					if (!firstInputEncountered) {
-						firstInputEncountered = true
-					} else {
-						this._instance._inputs.push(element)
-					}
-				}
-			}
-&nbsp;
-		});
-&nbsp;
-		return this
-	}
-&nbsp;
-	public static getFlags(): any {
-		const obj: any = {}
-		this._instance._flags?.forEach((value: boolean, key: string) =&gt; {
-			obj[key] = value
-		})
-&nbsp;
-		return obj
-	}
-&nbsp;
-	public static getArguments(): any {
-		return ArgumentParser.getFlags()
-	}
-&nbsp;
-	public static getInputs(): Array&lt;string&gt; {
-		return this._instance._inputs
-	}
-&nbsp;
-	public static getCommandLineArgs(): CommandLineArgs {
-		return { flags: ArgumentParser.getFlags(), inputs: ArgumentParser.getInputs() }
-	}
-}
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -322,16 +268,16 @@ export class ArgumentParser {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-10-23T16:01:09.389Z
+                at 2025-10-23T06:07:50.069Z
             </div>
-        <script src="prettify.js"></script>
+        <script src="../../prettify.js"></script>
         <script>
             window.onload = function () {
                 prettyPrint();
             };
         </script>
-        <script src="sorter.js"></script>
-        <script src="block-navigation.js"></script>
+        <script src="../../sorter.js"></script>
+        <script src="../../block-navigation.js"></script>
     </body>
 </html>
     

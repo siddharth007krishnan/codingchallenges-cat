@@ -11,7 +11,7 @@
     "typescript": "^5.9.3"
   },
   "bin": {
-    "cccat": "./dist/cat.js"
+    "cccat": "./dist/src/main.js"
   },
   "scripts": {
     "test": "jest dist/",

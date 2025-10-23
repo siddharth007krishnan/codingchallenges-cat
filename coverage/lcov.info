@@ -1,5 +1,5 @@
 TN:
-SF:cat.ts
+SF:src/ArgumentParser.ts
 FNF:0
 FNH:0
 DA:1,1
@@ -9,7 +9,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:utils/ArgumentParser.ts
+SF:src/CatenateFiles.ts
 FNF:0
 FNH:0
 DA:1,1
