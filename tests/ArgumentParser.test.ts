@@ -89,4 +89,17 @@ describe("It should parse the command line arguments properly", () => {
 		expect(flags["show-tabs"]).toBeTruthy()
 		expect(inputs).toHaveLength(0)
 	})
+
+	it("Should parse the command line arguments and return the inputs and flags provided when the command does not contain the node runtime path as input", () => {
+		process.argv = [__filename, "-it", "-w", "--watch", "--debug", "-m", "--show-tabs", "sample.txt", "-", "sample2.txt"]
+		const { flags, inputs } = ArgumentParser.parse().getCommandLineArgs()
+		console.log(flags, inputs)
+		expect(flags.i).toBeTruthy()
+		expect(flags.t).toBeTruthy()
+		expect(flags.w).toBeTruthy()
+		expect(flags.watch).toBeTruthy()
+		expect(inputs.includes("sample.txt")).toBeTruthy()
+		expect(inputs.includes("-")).toBeTruthy()
+		expect(inputs.includes("sample2.txt")).toBeTruthy()
+	})
 })
